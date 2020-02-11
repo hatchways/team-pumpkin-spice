@@ -5,9 +5,7 @@ import AddExperienceButton from "./AddExperienceButton";
 
 const Experience = props => {
   const [experience, setExperience] = useState({});
-  const [knownLanguages, setKnownLanguages] = useState([]);
-
-  // [{C++: 4}, {C: 2}, {python: 1}]
+  let [numberOfLanguages, setNumberOfLanguages] = useState(1);
 
   const languagesAvailable = [
     "C",
@@ -16,26 +14,36 @@ const Experience = props => {
     "JavaScript",
     "Python",
     "Ruby"
-  ].filter(ele => {
-    return !Object.keys(experience).includes(ele);
-  });
-
-  console.log(experience);
+  ];
+  // Only allow user to select those languages which have not been selected?
+  //.filter(ele => !Object.keys(experience).includes(ele));
 
   const updateExperience = newExperience => {
-    setExperience({ ...newExperience });
-    const newLanguagesKnown = Object.keys(experience);
-    setKnownLanguages([newLanguagesKnown]);
+    setExperience({ ...experience, ...newExperience });
   };
+
+  const addExperience = () => {
+    setExperience({
+      ...experience,
+      [languagesAvailable[Object.keys(experience).length]]: 1
+    });
+    setNumberOfLanguages(++numberOfLanguages);
+  };
+  console.log(numberOfLanguages);
 
   return (
     <SignUpContainer>
       <p>Add your experience here</p>
-      <NewExperienceForm
-        updateExperience={updateExperience}
-        languagesAvailable={languagesAvailable}
-      />
-      <AddExperienceButton />
+      {Array(numberOfLanguages)
+        .fill(true)
+        .map((ele, idx) => (
+          <NewExperienceForm
+            updateExperience={updateExperience}
+            language={ele}
+            languagesAvailable={languagesAvailable}
+          />
+        ))}
+      <AddExperienceButton addExperience={addExperience} />
     </SignUpContainer>
   );
 };
