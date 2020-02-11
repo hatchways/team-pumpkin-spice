@@ -1,22 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { InputLabel, Select, MenuItem, makeStyles } from "@material-ui/core";
 
 const NewExperienceForm = ({
   updateExperience,
-  language,
   languagesAvailable,
-  removable = true
+  index,
+  deleteExperience,
+  deletable
 }) => {
   const [selected, setSelected] = useState({
-    language: language,
-    level: "1"
+    language: languagesAvailable[0],
+    level: 1
   });
 
-  const handleChange = name => evt => {
+  const handleChange = name => async evt => {
     setSelected({ ...selected, [name]: evt.target.value });
-    updateExperience({ [selected.language]: selected.level });
   };
-  console.log("languages available", languagesAvailable);
+
+  useEffect(() => {
+    updateExperience(index, { [selected.language]: Number(selected.level) });
+  }, [selected]);
 
   // Todo: add functionality for not allowing 0 experiences
 
@@ -46,7 +49,9 @@ const NewExperienceForm = ({
         <MenuItem value="3">Advanced</MenuItem>
         <MenuItem value="4">Expert</MenuItem>
       </Select>
-      {removable && <button> Delete </button>}
+      {deletable && (
+        <button onClick={() => deleteExperience(index)}> Delete </button>
+      )}
     </>
   );
 };

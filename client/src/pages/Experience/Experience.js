@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SignUpContainer from "../../components/SignUpContainer";
 import NewExperienceForm from "./NewExperienceForm";
 import AddExperienceButton from "./AddExperienceButton";
 
+// TO-DO: ADD FUNCTIONALITY TO FILTER LANGUAGES ALREADY SELECTED
 const Experience = props => {
-  const [experience, setExperience] = useState({});
-  let [numberOfLanguages, setNumberOfLanguages] = useState(1);
+  const [experience, setExperience] = useState([{ C: 1 }]);
 
   const languagesAvailable = [
     "C",
@@ -15,34 +15,37 @@ const Experience = props => {
     "Python",
     "Ruby"
   ];
-  // Only allow user to select those languages which have not been selected?
-  //.filter(ele => !Object.keys(experience).includes(ele));
-
-  const updateExperience = newExperience => {
-    setExperience({ ...experience, ...newExperience });
-  };
 
   const addExperience = () => {
-    setExperience({
-      ...experience,
-      [languagesAvailable[Object.keys(experience).length]]: 1
-    });
-    setNumberOfLanguages(++numberOfLanguages);
+    setExperience([...experience, { [languagesAvailable[0]]: 1 }]);
   };
-  console.log(numberOfLanguages);
+
+  const updateExperience = async (index, newExperience) => {
+    let newExperienceList = experience;
+    newExperienceList[index] = newExperience;
+    setExperience(newExperienceList);
+  };
+
+  const deleteExperience = idx => {
+    let newExperienceList = experience.slice();
+    newExperienceList.splice(idx, 1);
+    setExperience(newExperienceList);
+  };
 
   return (
     <SignUpContainer>
       <p>Add your experience here</p>
-      {Array(numberOfLanguages)
-        .fill(true)
-        .map((ele, idx) => (
-          <NewExperienceForm
-            updateExperience={updateExperience}
-            language={ele}
-            languagesAvailable={languagesAvailable}
-          />
-        ))}
+      {experience.map((_, idx) => (
+        <NewExperienceForm
+          updateExperience={updateExperience}
+          language={languagesAvailable[0]}
+          languagesAvailable={languagesAvailable}
+          deleteExperience={deleteExperience}
+          index={idx}
+          experience={experience}
+          deletable={experience.length > 1 && idx > 0}
+        />
+      ))}
       <AddExperienceButton addExperience={addExperience} />
     </SignUpContainer>
   );
