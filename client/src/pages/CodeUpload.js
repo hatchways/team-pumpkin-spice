@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import {
   Grid,
@@ -56,6 +57,7 @@ const useStyles = makeStyles({
 
 const CodeUpload = () => {
   const { user, setUser } = useContext(UserContext);
+  const routeHistory = useHistory();
 
   const classes = useStyles();
   const [requestTitle, setRequestTitle] = useState("");
@@ -154,6 +156,9 @@ const CodeUpload = () => {
         setPostSuccess(true);
         user.credits += -1;
         setUser(user);
+        setTimeout(() => {
+          routeHistory.push(`/dashboard/requests/${response.data.threadId}`);
+        }, 2000);
       }
     } catch (err) {
       if (err.message.includes("403")) {
