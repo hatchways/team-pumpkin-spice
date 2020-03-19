@@ -1,9 +1,13 @@
+import axios from "axios";
+import socket from "./sockets";
 var jwtDecode = require("jwt-decode");
 
 const getToken = () => {
   let token = localStorage.getItem("peercode-auth-token");
   return token;
 };
+
+export const authHeader = () => ({ headers: { Authorization: getToken() } });
 
 const decodeToken = token => {
   var decodedToken = jwtDecode(token);
@@ -13,19 +17,19 @@ const decodeToken = token => {
 async function fetchUser(decodedToken) {
   async function getUser(id) {
     try {
-      const res = await fetch(`/user/${id}`, {
+      const { data } = await axios({
+        url: `/user/${id}`,
         method: "get",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          ...authHeader().headers
         }
       });
-      const json = await res.json();
-      if (json.errors) {
-        console.log(json.errors);
+      if (data.errors) {
         return {}; // if there is an error, return empty user object
       } else {
-        if ((json.success = true)) {
-          return json.user;
+        if ((data.success = true)) {
+          return data.user;
         }
       }
     } catch (e) {
@@ -39,6 +43,7 @@ async function fetchUser(decodedToken) {
   } else {
     let id = decodedToken.user._id;
     let userObject = await getUser(id);
+    socket.login(id);
     return userObject;
   }
 }
@@ -47,10 +52,10 @@ export const removeToken = () => {
   localStorage.removeItem("peercode-auth-token");
 };
 
-export const authJWT = () => {
+export const authJWT = async () => {
   let token = getToken();
   if (token) {
     let decodedToken = decodeToken(token);
-    return fetchUser(decodedToken);
+    return await fetchUser(decodedToken);
   } else return null;
 };

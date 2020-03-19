@@ -7,11 +7,10 @@ import { SnackbarProvider } from "notistack";
 import { theme } from "./themes/theme";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import Experience from "./pages/Experience";
 import Home from "./pages/Home";
 import Loading from "./components/Loading";
-
 import "./App.css";
-import Experience from "./pages/Experience";
 
 function App() {
   const [user, setUser] = useState(null);

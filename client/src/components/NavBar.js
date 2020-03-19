@@ -11,14 +11,14 @@ import {
   Typography,
   makeStyles
 } from "@material-ui/core";
-import NotificationsNoneRoundedIcon from "@material-ui/icons/NotificationsNoneRounded";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { Logo } from "./Logo";
+import Notifications from "components/Notifications";
 
 const useStyles = makeStyles({
   bar: {
     justifyContent: "space-between",
-    height: "10vh"
+    height: "9vh"
   },
   linkButton: {
     color: "white",
@@ -56,6 +56,10 @@ const useStyles = makeStyles({
     textDecoration: "none",
     marginLeft: "1vw",
     textTransform: "none"
+  },
+  dropdownItem: {
+    color: "black",
+    margin: "0"
   }
 });
 
@@ -93,10 +97,7 @@ const NavBar = () => {
             <Button className={classes.linkButton}>Balance</Button>
           </Link>
           <IconButton className={classes.iconButton}>
-            <NotificationsNoneRoundedIcon
-              className={classes.notificationIcon}
-              fontSize="large"
-            />
+            <Notifications />
           </IconButton>
           <Button className={classes.codeButton}>
             <Link className={classes.codeLink} to="/code-upload">
@@ -133,8 +134,18 @@ const NavBar = () => {
               open={open}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
+              <Link
+                to={`/profile/${user._id}`}
+                className={`${classes.link} ${classes.dropdownItem}`}
+              >
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+              </Link>
+              <Link
+                to="/"
+                className={`${classes.link} ${classes.dropdownItem}`}
+              >
+                <MenuItem onClick={handleClose}>My account</MenuItem>
+              </Link>
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </div>

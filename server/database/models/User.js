@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("../../config/config");
 const Thread = require("./Thread");
+const { Notification } = require("./Notification");
 
 const userSchema = new Schema(
   {
@@ -27,6 +28,16 @@ const userSchema = new Schema(
     credits: {
       type: Number,
       default: 3
+    },
+    rating: {
+      averageRating: {
+        type: Number,
+        default: 3
+      },
+      count: {
+        type: Number,
+        default: 1
+      }
     }
   },
   { timestamps: true }
