@@ -215,6 +215,11 @@ router.put("/user/:id/experience", isAuth, async (req, res) => {
   }
 });
 
+router.post("/user/:id/profile-picture", async (req, res) => {
+  console.log(req.body);
+  return res.status(200).send({ message: "received" });
+});
+
 router.post("/user/:id/purchase-credit", isAuth, async (req, res) => {
   const { credits } = req.body;
   try {
