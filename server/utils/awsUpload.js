@@ -20,6 +20,7 @@ const startUpload = async data => {
 };
 
 const uploadPicture = async (userId, picture) => {
+  //TODO figure out what format the picture is going to come in from the client and pass it in
   const hash = md5(picture);
   const params = {
     Bucket: config.aws.bucketName,
@@ -28,5 +29,5 @@ const uploadPicture = async (userId, picture) => {
     Key: `${userId}/${hash}`
   };
 
-  return startUpload(params);
+  return await startUpload(params);
 };
