@@ -23,6 +23,9 @@ const userSchema = new Schema(
       type: Schema.Types.Mixed,
       of: Number
     },
+    picture: {
+      type: String
+    },
     assignedThreads: [{ type: Schema.Types.ObjectId, ref: Thread }],
     assignedCount: { type: Number, default: 0 },
     credits: {
