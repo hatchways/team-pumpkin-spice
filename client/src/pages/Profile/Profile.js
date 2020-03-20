@@ -43,6 +43,9 @@ const useStyles = makeStyles({
   },
   icon: {
     color: "#888888"
+  },
+  avatarGrid: {
+    justifySelf: "center"
   }
 });
 
@@ -158,7 +161,7 @@ const Profile = ({ editable, userProp, width }) => {
             }`}
           >
             <Grid container direction="column" spacing={6}>
-              <Grid item>
+              <Grid item className={classes.avatarGrid}>
                 <ProfilePicture
                   user={user}
                   editable={editable}

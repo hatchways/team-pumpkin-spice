@@ -1,31 +1,44 @@
 import React, { useCallback, useState } from "react";
-import { Dialog, DialogTitle, makeStyles } from "@material-ui/core";
+import { Dialog, DialogTitle, Typography, makeStyles } from "@material-ui/core";
 import PersonIcon from "@material-ui/icons/Person";
 import EditIcon from "@material-ui/icons/Edit";
 import { useDropzone } from "react-dropzone";
-import { Autocomplete } from "@material-ui/lab";
+import Avatar from "@material-ui/core/Avatar";
 
 const useStyles = makeStyles({
-  dropRoot: {},
+  dropRoot: { padding: "3vh 2vh 0 2vh" },
+  dropzone: {
+    padding: "4vh 2vh",
+    border: "1px dashed grey"
+  },
   avatarWrapper: {
     margin: "auto"
   },
+  avatar: {
+    margin: "auto",
+    height: "8vh",
+    width: "8vh"
+  },
   previewWrapper: {
     display: "flex",
-    flexDirection: "row"
+    flexDirection: "row",
+    height: "200px"
   },
   thumb: {
     display: "inline-flex",
-    borderRadius: "50%",
     border: "1px solid #eaeaea",
     marginBottom: 8,
     marginRight: 8,
     width: 100,
-    height: 100,
+    height: "auto",
     padding: 4,
-    boxSizing: "border-box"
+    boxSizing: "border-box",
+    clipPath: "circle(30%)",
+    objectFit: "cover"
   }
 });
+
+const maxFileSize = 2000000; //2mb
 
 const Dropzone = props => {
   const classes = useStyles();
@@ -46,16 +59,25 @@ const Dropzone = props => {
       reader.readAsArrayBuffer(file);
     });
   }, []);
+
+  const onDropRejected = useCallback((file, event) => {
+    //TODO inform user that the file was rejected
+  }, []);
+
   const { getRootProps, getInputProps } = useDropzone({
+    onDropRejected,
     onDrop,
-    accept: "img/*"
+    accept: "image/*",
+    maxSize: maxFileSize
   });
 
   return (
     <div className={classes.dropRoot}>
-      <div {...getRootProps()}>
+      <div className={classes.dropzone} {...getRootProps()}>
         <input {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select files</p>
+        <Typography variant="p">
+          Drag 'n' drop some files here, or click to select files
+        </Typography>
       </div>
       <div className={classes.previewWrapper}>
         {files.map(file => {
@@ -85,9 +107,11 @@ const ProfileName = ({ editable, user }) => {
     return (
       <div className={classes.avatarWrapper}>
         {user.hasOwnProperty("avatar") ? (
-          <img src={user.avatar} />
+          <Avatar className={classes.avatar} src={user.avatar}></Avatar>
         ) : (
-          <PersonIcon />
+          <Avatar className={classes.avatar}>
+            <PersonIcon />
+          </Avatar>
         )}
         {editable && <EditIcon button onClick={handleEditClick} />}
       </div>

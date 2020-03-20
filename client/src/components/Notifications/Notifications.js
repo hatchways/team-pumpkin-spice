@@ -122,7 +122,6 @@ const Notifications = () => {
     const now = Date.now();
     const timeDelta = now - created.valueOf();
     let elapsed = 0;
-    console.log(timeDelta);
     if (timeDelta < timeMap.minute) {
       return "just now";
     } else if (timeDelta < timeMap.hour) {
