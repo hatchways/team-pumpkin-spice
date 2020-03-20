@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ProfileName, ProfileExperience, ProfileActivity } from "./index";
+import {
+  ProfileName,
+  ProfilePicture,
+  ProfileExperience,
+  ProfileActivity
+} from "./index";
 import { UserContext } from "context/UserContext";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import { useParams } from "react-router-dom";
@@ -153,6 +158,13 @@ const Profile = ({ editable, userProp, width }) => {
             }`}
           >
             <Grid container direction="column" spacing={6}>
+              <Grid item>
+                <ProfilePicture
+                  user={user}
+                  editable={editable}
+                  isEditing={isEditing}
+                />
+              </Grid>
               {isEditableProfileName()}
               <Grid item>
                 <ProfileExperience
