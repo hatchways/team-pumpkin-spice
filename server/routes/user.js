@@ -217,6 +217,8 @@ router.put("/user/:id/experience", isAuth, async (req, res) => {
 
 router.post("/user/:id/profile-picture", async (req, res) => {
   console.log(req.body);
+  const pictureData = JSON.parse(req.body);
+  console.log(typeof pictureData);
   return res.status(200).send({ message: "received" });
 });
 

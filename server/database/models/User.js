@@ -23,7 +23,7 @@ const userSchema = new Schema(
       type: Schema.Types.Mixed,
       of: Number
     },
-    picture: {
+    avatar: {
       type: String
     },
     assignedThreads: [{ type: Schema.Types.ObjectId, ref: Thread }],
