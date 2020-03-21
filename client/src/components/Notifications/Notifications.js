@@ -190,9 +190,6 @@ const Notifications = () => {
         id="notification-bell"
         className={classes.menu}
         anchorEl={anchorEl}
-        anchorOrigin={{
-          horizontal: "center"
-        }}
         transformOrigin={{
           vertical: -40,
           horizontal: "right"
@@ -211,8 +208,8 @@ const Notifications = () => {
       >
         {state.notifications.map(ele => {
           return (
-            <>
-              <Link to={ele.link} className={classes.link} key={ele._id}>
+            <div key={ele._id}>
+              <Link to={ele.link} className={classes.link}>
                 <MenuItem
                   className={`${classes.link} ${
                     ele.seen ? classes.seen : classes.unseen
@@ -231,7 +228,7 @@ const Notifications = () => {
                 </MenuItem>
               </Link>
               <Divider className={classes.divider} />
-            </>
+            </div>
           );
         })}
       </Menu>

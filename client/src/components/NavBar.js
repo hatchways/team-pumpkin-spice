@@ -96,9 +96,9 @@ const NavBar = () => {
           <Link to="/balance" className={classes.link}>
             <Button className={classes.linkButton}>Balance</Button>
           </Link>
-          <IconButton className={classes.iconButton}>
+          <div className={classes.iconButton}>
             <Notifications />
-          </IconButton>
+          </div>
           <Button className={classes.codeButton}>
             <Link className={classes.codeLink} to="/code-upload">
               Upload code
