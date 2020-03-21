@@ -38,11 +38,11 @@ const useStyles = makeStyles({
   smallPaper: {
     height: "90vh"
   },
-  name: {
-    fontWeight: "800"
-  },
   icon: {
-    color: "#888888"
+    color: "#888888",
+    "&:hover": {
+      color: "black"
+    }
   },
   avatarGrid: {
     justifySelf: "center"
@@ -109,6 +109,23 @@ const Profile = ({ editable, userProp, width }) => {
     setUser({ ...user, name, email });
   };
 
+  const saveAvatar = async file => {
+    const form = new FormData();
+    form.append("data", file.data);
+    form.append("fileName", file.data.name);
+    form.append("type", file.type);
+    const response = await axios.post(
+      `/user/${user._id}/avatar`,
+      form,
+      authHeader()
+    );
+    if (response) {
+      setUser(prev => {
+        return { ...prev, avatar: { url: response.data.url } };
+      });
+    }
+  };
+
   const changeName = e => setName(e.target.value);
 
   const changeEmail = e => setEmail(e.target.value);
@@ -132,7 +149,9 @@ const Profile = ({ editable, userProp, width }) => {
             {!isEditing && (
               <EditIcon className={classes.icon} onClick={toggleEditing} />
             )}
-            {isEditing && <SaveRoundedIcon onClick={submitEdits} />}
+            {isEditing && (
+              <SaveRoundedIcon className={classes.icon} onClick={submitEdits} />
+            )}
           </Grid>
         </Grid>
       );
@@ -166,6 +185,7 @@ const Profile = ({ editable, userProp, width }) => {
                   user={user}
                   editable={editable}
                   isEditing={isEditing}
+                  saveAvatar={saveAvatar}
                 />
               </Grid>
               {isEditableProfileName()}
