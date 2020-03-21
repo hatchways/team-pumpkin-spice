@@ -24,7 +24,8 @@ const userSchema = new Schema(
       of: Number
     },
     avatar: {
-      type: String
+      url: { type: String, default: "" },
+      key: { type: String, default: "" }
     },
     assignedThreads: [{ type: Schema.Types.ObjectId, ref: Thread }],
     assignedCount: { type: Number, default: 0 },
