@@ -130,5 +130,15 @@ module.exports = {
       reviews: reviews.length,
       rating: user.rating.averageRating
     };
+  },
+
+  getGeneralUserInfo: async users => {
+    try {
+      const result = await User.find({ _id: { $in: users } }, "name avatar");
+      return result;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
   }
 };
