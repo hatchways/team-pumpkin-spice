@@ -5,9 +5,9 @@ import {
   Typography,
   Paper,
   Button,
+  CircularProgress,
   makeStyles
 } from "@material-ui/core";
-import PersonIcon from "@material-ui/icons/Person";
 import CloseIcon from "@material-ui/icons/Close";
 import EditIcon from "@material-ui/icons/Edit";
 import { useDropzone } from "react-dropzone";
@@ -66,19 +66,20 @@ const useStyles = makeStyles({
   },
   preview: {
     height: "200px",
-    display: "flex"
+    width: "200px",
+    display: "flex",
+    overflow: "hidden",
+    borderRadius: "50%"
   },
   thumb: {
-    border: "1px solid #eaeaea",
-    padding: "10px",
-    boxSizing: "border-box",
-    clipPath: "circle(30%)",
     objectFit: "cover",
     height: "auto",
-    width: "150px"
+    width: "100%",
+    height: "100%"
   },
   uploadButton: {
-    float: "right"
+    display: "flex",
+    justifyContent: "flex-end"
   }
 });
 
@@ -86,6 +87,7 @@ const maxFileSize = 2000000; //2mb
 
 const Dropzone = ({ files, setFiles, saveAvatar }) => {
   const [accepted, setAccepted] = useState([...files]); //restore file if dialog is closed
+  const [uploading, setUploading] = useState(false);
   const classes = useStyles();
 
   //Disable the dropzone if there is already a file waiting to be uploaded
@@ -98,8 +100,8 @@ const Dropzone = ({ files, setFiles, saveAvatar }) => {
   const onDrop = useCallback(acceptedFiles => {
     acceptedFiles.forEach(file => {
       const reader = new FileReader();
-      reader.onabort = () => console.log("file reading was aborted");
-      reader.onerror = () => console.log("file reading has failed");
+      reader.onabort = () => window.alert("File reading was aborted");
+      reader.onerror = () => window.alert("Error occured while reading file");
       reader.onload = () => {
         const arrayBuffer = reader.result;
         const fileObj = new File([arrayBuffer], file.name);
@@ -118,7 +120,7 @@ const Dropzone = ({ files, setFiles, saveAvatar }) => {
   }, []);
 
   const onDropRejected = useCallback((file, event) => {
-    //TODO inform user that the file was rejected
+    window.alert("File is not an accepted image.");
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -144,10 +146,11 @@ const Dropzone = ({ files, setFiles, saveAvatar }) => {
   const getDropzoneText = () => {
     if (disabled()) {
       return "Remove current file to upload another";
-    } else return "Drag 'n Drop or click to upload a picture";
+    } else return "Drag 'n Drop or click to upload a picture (2MB or smaller)";
   };
 
   const handlePictureUpload = () => {
+    setUploading(true);
     saveAvatar();
   };
 
@@ -160,16 +163,24 @@ const Dropzone = ({ files, setFiles, saveAvatar }) => {
       <div className={classes.previewWrapper}>
         {accepted.map(file => {
           return (
-            <div className={classes.preview} key={file.preview}>
-              <img src={file.preview} className={classes.thumb} />
+            <div key={file.preview}>
+              <div className={classes.preview}>
+                <img src={file.preview} className={classes.thumb} />
+              </div>
               <CloseIcon className={classes.icon} onClick={removeFile} />
             </div>
           );
         })}
       </div>
-      <Button className={classes.uploadButton} onClick={handlePictureUpload}>
-        Upload
-      </Button>
+      <div className={classes.uploadButton}>
+        {uploading && (
+          <CircularProgress
+            color="secondary"
+            className={classes.uploadProgress}
+          />
+        )}
+        <Button onClick={handlePictureUpload}>Upload</Button>
+      </div>
     </div>
   );
 };
