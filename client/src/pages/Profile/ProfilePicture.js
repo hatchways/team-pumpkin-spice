@@ -33,6 +33,8 @@ const useStyles = makeStyles({
     margin: "auto",
     height: "10vh",
     width: "10vh",
+    minHeight: "66px",
+    minWidth: "66px",
     borderRadius: "50%",
     display: "flex",
     alignContent: "center",
@@ -41,7 +43,9 @@ const useStyles = makeStyles({
   avatar: {
     margin: "auto",
     height: "9vh",
-    width: "9vh"
+    width: "9vh",
+    minHeight: "60px",
+    minWidth: "60px"
   },
   editButton: {
     width: "2vh",

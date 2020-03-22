@@ -62,8 +62,8 @@ const useStyles = makeStyles({
   },
   avatar: {
     margin: "auto",
-    height: "4vh",
-    width: "4vh"
+    height: "45px",
+    width: "45px"
   }
 });
 

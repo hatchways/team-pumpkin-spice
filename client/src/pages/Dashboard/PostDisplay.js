@@ -46,7 +46,9 @@ const useStyles = makeStyles({
   },
   avatar: {
     height: "5vh",
-    width: "5vh"
+    width: "5vh",
+    minHeight: "50px",
+    minWidth: "50px"
   }
 });
 
