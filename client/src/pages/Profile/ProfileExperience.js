@@ -45,9 +45,9 @@ const ProfileExperience = ({ experience, editable }) => {
           <div></div>
         )}
       </Grid>
-      <Grid container item spacing={4} justify="space-around">
+      <Grid container item spacing={6} justify="space-around">
         {experience.map((exp, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={2} key={index}>
+          <Grid item xs={12} sm={8} md={6} lg={3} key={index}>
             <i
               className={`${
                 Object.keys(exp)[0] === "C++"
