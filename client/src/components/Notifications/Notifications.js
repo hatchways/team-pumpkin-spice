@@ -199,7 +199,8 @@ const Notifications = () => {
         onClose={handleClose}
         PaperProps={{
           style: {
-            maxHeight: 300
+            maxHeight: 300,
+            maxWidth: 500
           }
         }}
         MenuListProps={{
