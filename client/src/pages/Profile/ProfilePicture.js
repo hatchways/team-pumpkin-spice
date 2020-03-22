@@ -49,6 +49,13 @@ const useStyles = makeStyles({
     position: "relative",
     left: "4vh"
   },
+  invisibleEditButton: {
+    width: "2vh",
+    margin: "auto",
+    position: "relative",
+    left: "4vh",
+    visibility: "hidden"
+  },
   icon: {
     color: "#888888",
     "&:hover": {
@@ -213,9 +220,13 @@ const ProfilePicture = ({ editable, user, saveAvatar }) => {
         </Dialog>
         <CustomAvatar user={user} avatarStyles={classes.avatar} />
       </Paper>
-      {editable && (
+      {editable ? (
         <div className={classes.editButton}>
           <EditIcon className={classes.icon} onClick={handleEditClick} />
+        </div>
+      ) : (
+        <div className={classes.invisibleEditButton}>
+          <EditIcon className={classes.icon} />
         </div>
       )}
     </div>
