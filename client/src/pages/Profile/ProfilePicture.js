@@ -11,7 +11,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import CloseIcon from "@material-ui/icons/Close";
 import EditIcon from "@material-ui/icons/Edit";
 import { useDropzone } from "react-dropzone";
-import Avatar from "@material-ui/core/Avatar";
+import { CustomAvatar } from "components";
 
 const useStyles = makeStyles({
   dropRoot: { padding: "3vh 2vh 1vh 2vh" },
@@ -22,6 +22,12 @@ const useStyles = makeStyles({
   dropzoneDisabled: {
     color: "#888888",
     padding: "4vh 2vh"
+  },
+  avatarRoot: {
+    position: "relative",
+    top: "7vh",
+    display: "flex",
+    flexDirection: "column"
   },
   avatarWrapper: {
     margin: "auto",
@@ -38,9 +44,10 @@ const useStyles = makeStyles({
     width: "9vh"
   },
   editButton: {
+    width: "2vh",
+    margin: "auto",
     position: "relative",
-    left: "6vh",
-    bottom: "10vh"
+    left: "4vh"
   },
   icon: {
     color: "#888888",
@@ -179,10 +186,11 @@ const ProfilePicture = ({ editable, user, saveAvatar }) => {
   const handleSaveAvatar = async () => {
     await saveAvatar(files[0]);
     setIsEditing(prev => !prev);
+    setFiles([]);
   };
 
   return (
-    <>
+    <div className={classes.avatarRoot}>
       <Paper className={classes.avatarWrapper}>
         <Dialog open={isEditing} onClose={handleEditClick}>
           <DialogTitle>Upload a picture</DialogTitle>
@@ -192,25 +200,14 @@ const ProfilePicture = ({ editable, user, saveAvatar }) => {
             saveAvatar={handleSaveAvatar}
           />
         </Dialog>
-        {user.hasOwnProperty("avatar") ? (
-          <Avatar
-            alt={user.name}
-            className={classes.avatar}
-            src={user.avatar.url}
-          ></Avatar>
-        ) : (
-          <Avatar alt={user.name} className={classes.avatar}>
-            <PersonIcon />
-          </Avatar>
-        )}
+        <CustomAvatar user={user} avatarStyles={classes.avatar} />
       </Paper>
       {editable && (
-        <EditIcon
-          className={`${classes.editButton} ${classes.icon}`}
-          onClick={handleEditClick}
-        />
+        <div className={classes.editButton}>
+          <EditIcon className={classes.icon} onClick={handleEditClick} />
+        </div>
       )}
-    </>
+    </div>
   );
 };
 

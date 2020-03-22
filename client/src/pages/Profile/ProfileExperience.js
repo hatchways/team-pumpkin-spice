@@ -45,7 +45,7 @@ const ProfileExperience = ({ experience, editable }) => {
           <div></div>
         )}
       </Grid>
-      <Grid container item spacing={4} justify="center">
+      <Grid container item spacing={4} justify="space-around">
         {experience.map((exp, index) => (
           <Grid item xs={12} sm={6} md={4} lg={2} key={index}>
             <i

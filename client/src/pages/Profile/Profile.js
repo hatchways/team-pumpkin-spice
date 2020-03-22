@@ -16,9 +16,9 @@ import axios from "axios";
 
 const useStyles = makeStyles({
   root: {
-    paddingTop: "15vh",
-    paddingLeft: "25vh",
-    paddingRight: "25vh",
+    paddingTop: "10vh",
+    paddingLeft: "18vh",
+    paddingRight: "18vh",
     paddingBottom: "15vh",
     overflowX: "auto"
   },
@@ -28,6 +28,7 @@ const useStyles = makeStyles({
   paper: {
     textAlign: "center",
     padding: "3vh",
+    paddingTop: "8vh",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between"
@@ -43,9 +44,6 @@ const useStyles = makeStyles({
     "&:hover": {
       color: "black"
     }
-  },
-  avatarGrid: {
-    justifySelf: "center"
   }
 });
 
@@ -173,6 +171,12 @@ const Profile = ({ editable, userProp, width }) => {
         className={`${width > 960 ? classes.root : classes.smallRoot}`}
       >
         <Grid item xs={12}>
+          <ProfilePicture
+            user={user}
+            editable={editable}
+            isEditing={isEditing}
+            saveAvatar={saveAvatar}
+          />
           <Paper
             elevation={24}
             className={`${classes.paper} ${
@@ -180,14 +184,6 @@ const Profile = ({ editable, userProp, width }) => {
             }`}
           >
             <Grid container direction="column" spacing={6}>
-              <Grid item className={classes.avatarGrid}>
-                <ProfilePicture
-                  user={user}
-                  editable={editable}
-                  isEditing={isEditing}
-                  saveAvatar={saveAvatar}
-                />
-              </Grid>
               {isEditableProfileName()}
               <Grid item>
                 <ProfileExperience
