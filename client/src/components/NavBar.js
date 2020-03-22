@@ -11,9 +11,8 @@ import {
   Typography,
   makeStyles
 } from "@material-ui/core";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import { Logo } from "./Logo";
-import Notifications from "components/Notifications";
+import { Notifications, CustomAvatar } from "components";
 
 const useStyles = makeStyles({
   bar: {
@@ -60,6 +59,11 @@ const useStyles = makeStyles({
   dropdownItem: {
     color: "black",
     margin: "0"
+  },
+  avatar: {
+    margin: "auto",
+    height: "4vh",
+    width: "4vh"
   }
 });
 
@@ -114,7 +118,7 @@ const NavBar = () => {
               fontSize="large"
             ></IconButton>
             <Button className={classes.profileButton} onClick={handleMenu}>
-              <AccountCircle />
+              <CustomAvatar user={user} avatarStyles={classes.avatar} />
               <Typography className={classes.user}>
                 {user ? user.name : "profile"}
               </Typography>
